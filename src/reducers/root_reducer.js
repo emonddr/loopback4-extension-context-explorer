@@ -1,8 +1,8 @@
 'use strict'
 
-import { SET_SELECTED_ITEM,CLEAR_SELECTED_ITEM }  from '../actions/action_constants'
+import { SET_SELECTED_ITEM,CLEAR_SELECTED_ITEM, SET_REQUEST_BINDING_DATA, SET_SERVER_BINDING_DATA, SET_APPLICATION_BINDING_DATA }  from '../actions/action_constants'
 
-const initialState = { "selectedItem":{} };
+const initialState = { "selectedItem":{}, "requestBindingData":{}, "serverBindingData":{}, "applicationBindingData":{}};
 
 export default function rootReducer(state = initialState, action) {
 
@@ -20,6 +20,18 @@ export default function rootReducer(state = initialState, action) {
         newState =  Object.assign({}, state, { "selectedItem" : {} } );        
         return newState;
 
+        case SET_REQUEST_BINDING_DATA:
+          newState =  Object.assign({}, state, { "requestBindingData" : action.payload.request_binding_data } );        
+          return newState;
+
+        case SET_SERVER_BINDING_DATA:
+        newState =  Object.assign({}, state, { "serverBindingData" : action.payload.server_binding_data } );        
+        return newState;
+
+        case SET_APPLICATION_BINDING_DATA:
+          newState =  Object.assign({}, state, { "applicationBindingData" : action.payload.application_binding_data } );        
+          return newState;
+  
       default:
         return state;
     }//switch

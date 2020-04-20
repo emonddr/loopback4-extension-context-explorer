@@ -4,6 +4,7 @@ import { setSelectedItem }    from './actions/action_creator';
 import { clearSelectedItem } from './actions/action_creator';
 import BindingExplorer from './BindingExplorer';
 import BindingInfo from './BindingInfo';
+import { fetchInspectionData } from './actions/action_creator';     
 
 class MainView extends Component {
     constructor(props) {
@@ -11,10 +12,14 @@ class MainView extends Component {
 
         this.updateSelectedBinding = this.updateSelectedBinding.bind(this); 
         this.clearSelectedBinding = this.clearSelectedBinding.bind(this); 
+        this.retrieveInspectionData = this.retrieveInspectionData.bind(this);
+        this.retrieveInspectionData();
     }
 
 
     render() {
+
+ 
         return (
             <div className="row">  
            
@@ -24,7 +29,7 @@ class MainView extends Component {
                         <h2 className="card-title">Context Bindings</h2>
                     </div>    
                   </div>
-                  <BindingExplorer selectedItem={this.props.selectedItem} selectedBindingCallback={this.updateSelectedBinding} clearSelectedBindingCallback={this.clearSelectedBinding}/>  
+                  <BindingExplorer selectedItem={this.props.selectedItem} selectedBindingCallback={this.updateSelectedBinding} clearSelectedBindingCallback={this.clearSelectedBinding}  requestBindingData={this.props.requestBindingData} serverBindingData={this.props.serverBindingData} applicationBindingData={this.props.applicationBindingData} fetchDataCallBack={this.retrieveInspectionData}/>  
                 </div>
                 <div className="col" >
                   <div className="card bg-light mb-3" >
@@ -48,6 +53,11 @@ class MainView extends Component {
     updateSelectedBinding( selectedItem) {
         this.props.d2p_setSelectedItem( selectedItem["name"], selectedItem["context_name"], selectedItem["details"], selectedItem["context_type"] );
       }
+
+      retrieveInspectionData( ) {
+        this.props.d2p_fetchInspectionData();
+      }
+  
 }
 
 
@@ -57,23 +67,33 @@ class MainView extends Component {
     return {
   
       d2p_clearSelectedItem : () => {
-       console.log("Inside mapDispatchToProps : d2p_clearSelectedItem");
+       
        dispatch( clearSelectedItem()  );
       },
   
       d2p_setSelectedItem : (some_name,some_context_name, some_details, some_type) => {
-       console.log("Inside mapDispatchToProps : d2p_setSelectedItem");
+       
        dispatch( setSelectedItem(some_name,some_context_name, some_details,some_type)  );
-      }     
+      } ,
+      
+ 
+      d2p_fetchInspectionData : () => {
+       
+        dispatch( fetchInspectionData()  );
+       },
            
   
     }
   };
   
+
   function mapStateToProps(reduxState) {
    
    return {
-     selectedItem    : reduxState.selectedItem
+     selectedItem              : reduxState.selectedItem,
+     requestBindingData        : reduxState.requestBindingData,
+     serverBindingData         : reduxState.serverBindingData,     
+     applicationBindingData    : reduxState.applicationBindingData   
    }
   
   }

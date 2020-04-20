@@ -6,7 +6,6 @@ class BindingInfo extends Component {
     constructor(props) {
         super(props);
         this.detailsTabRef = React.createRef();
-        console.log("created ref");
     }  
 
 
@@ -79,7 +78,6 @@ class BindingInfo extends Component {
     const detailsTab = this.detailsTabRef;
     if (detailsTab && detailsTab.current){
       detailsTab.current.click();
-      console.log("after details setfocus");
     }
 
    }
